@@ -1,11 +1,20 @@
 const express = require('express');
-const cors = require('cors');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
+const dotenv = require('dotenv');
+const db = require('./config/database');
+
+dotenv.config();
+
+// Connect to the database
+db.authenticate()
+    .then(() => console.log('Database connected'))
+    .catch((err) => console.error('Error connecting to database:', err));
 
 const app = express();
+const PORT = process.env.PORT || 3000;
 
 // adding Helmet to enhance your API's security
 app.use(helmet());
@@ -18,8 +27,6 @@ app.use(cors());
 
 // adding morgan to log HTTP requests
 app.use(morgan('combined'));
-
-const PORT = process.env.PORT || 5000;
 
 app.get('/', (req, res) => {
     res.send('Hello, World!');

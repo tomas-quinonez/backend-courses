@@ -5,6 +5,7 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const dotenv = require('dotenv');
 const db = require('./config/database');
+const todoRoutes = require('./routes/todoRoutes');
 
 dotenv.config();
 
@@ -31,6 +32,8 @@ app.use(morgan('combined'));
 app.get('/', (req, res) => {
     res.send('Hello, World!');
 });
+
+app.use('/todos', todoRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

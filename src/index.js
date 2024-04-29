@@ -6,6 +6,7 @@ const morgan = require('morgan');
 const dotenv = require('dotenv');
 const db = require('./config/database');
 const todoRoutes = require('./routes/todoRoutes');
+const courseRoutes = require('./routes/courseRoutes');
 
 dotenv.config();
 
@@ -34,6 +35,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/todos', todoRoutes);
+app.use('/courses', courseRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

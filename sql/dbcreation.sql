@@ -29,6 +29,10 @@ CREATE TABLE courses.courses (
 	code int NOT NULL,
 	name varchar NOT NULL,
 	description varchar NOT NULL,
+	duration int NOT NULL,
+	cost float8 NOT NULL,
+	level varchar NOT NULL,
+	modality varchar NOT NULL,
 	idpath int NULL,
 	CONSTRAINT courses_pk PRIMARY KEY (idcourse),
 	CONSTRAINT courses_categories_fk FOREIGN KEY (idcategory) REFERENCES courses.categories(idcategory),
@@ -47,6 +51,6 @@ INSERT INTO courses.platforms
 VALUES(1, 'udemy', 'Plataforma de aprendizaje en línea');
 
 INSERT INTO courses.courses
-(idcourse, idcategory, idplatform, code, name, description, idpath)
-VALUES(1, 1, 1, 5, 'Progrmación full-stack', 'Curso de programación web full-stack', NULL);
+(idcourse, idcategory, idplatform, code, name, description, duration, cost, level, modality, idpath)
+VALUES(1, 1, 1, 5, 'Programación full-stack', 'Curso de programación web full-stack', 18, 150000, 'principiante', 'virtual', NULL);
 

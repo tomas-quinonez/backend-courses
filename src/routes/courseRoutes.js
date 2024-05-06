@@ -5,7 +5,10 @@ const router = express.Router();
 const courseController = require('../controllers/courseController');
 
 // Route to get all todos
-router.get('/', courseController.getAllCourses);
+router.get('/allcourses', courseController.getAllCourses);
+
+// Route to get all todos
+router.get('/getcourses', courseController.getCourses);
 
 // Route to create a new todo
 //router.post('/', courseController.createTodo);

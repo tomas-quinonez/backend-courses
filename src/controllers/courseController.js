@@ -2,6 +2,31 @@ const Course = require('../models/course');
 const Category = require('../models/category');
 const Platform = require('../models/platform');
 const { Op } = require('sequelize');
+const { leven } = require('@nlpjs/similarity');
+
+function filterByKeywords(keywords, courses) {
+    filteredCourses = [];
+    keywords = keywords.map(k => k.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""));
+
+    courses.forEach(function (course) {
+        nameWords = course.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(' ').concat();
+        descriptionWords = course.description.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().split(' ');
+        words = nameWords.concat(descriptionWords);
+
+        wordsLoop:
+        for (i = 0; i < words.length; i++) {
+            for (j = 0; j < keywords.length; j++) {
+                if (leven(keywords[j], words[i]) <= 3) {
+                    console.log(keywords[j] + ' ' + words[i] + ' ' + leven(keywords[j], words[i]));
+                    filteredCourses.push(course);
+                    break wordsLoop;
+                }
+            }
+        }
+    });
+
+    return filteredCourses;
+}
 
 // Controller method to get all todos
 exports.getAllCourses = async (req, res) => {
@@ -37,8 +62,8 @@ exports.getCourses = async (req, res) => {
             queries['modality'] = req.body.modality;
         }
 
-        const courses = await Course.findAll({
-            attributes: ['code', 'name', 'description', 'duration', 'cost', 'level', 'modality'],
+        var courses = await Course.findAll({
+            attributes: ['name', 'description', 'duration', 'cost', 'level', 'modality'],
             where: queries,
             include: [{
                 model: Category,
@@ -48,6 +73,10 @@ exports.getCourses = async (req, res) => {
                 attributes: ['name', 'description']
             }]
         });
+
+        if (req.body.keywords) {
+            courses = filterByKeywords(req.body.keywords, courses);
+        }
 
         res.json(courses);
     } catch (error) {

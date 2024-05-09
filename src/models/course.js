@@ -4,6 +4,8 @@ const db = require('../config/database');
 
 const Category = require('../models/category');
 const Platform = require('../models/platform');
+const Level = require('../models/level');
+const Modality = require('../models/modality');
 
 const Course = db.define('courses', {
     idcourse: {
@@ -14,13 +16,13 @@ const Course = db.define('courses', {
     idcategory: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        primaryKey: false,
+        primaryKey: true,
         references: 'categories',
         referencesKey: 'idcategory'
     },
     idplatform: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         primaryKey: false,
         references: 'platforms',
         referencesKey: 'idplatform'
@@ -45,13 +47,19 @@ const Course = db.define('courses', {
         type: Sequelize.FLOAT,
         allowNull: false,
     },
-    level: {
-        type: Sequelize.STRING,
-        allowNull: false,
+    idlevel: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        primaryKey: false,
+        references: 'levels',
+        referencesKey: 'idlevel'
     },
-    modality: {
-        type: Sequelize.STRING,
-        allowNull: false,
+    idmodality: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        primaryKey: false,
+        references: 'modalities',
+        referencesKey: 'idmodality'
     },
     idpath: {
         type: Sequelize.INTEGER,
@@ -78,6 +86,18 @@ Course.belongsTo(Category, {
 Course.belongsTo(Platform, {
     foreignKey: {
         name: 'idplatform'
+    }
+});
+
+Course.belongsTo(Level, {
+    foreignKey: {
+        name: 'idlevel'
+    }
+});
+
+Course.belongsTo(Modality, {
+    foreignKey: {
+        name: 'idmodality'
     }
 });
 

@@ -1,6 +1,8 @@
 const Course = require('../models/course');
 const Category = require('../models/category');
 const Platform = require('../models/platform');
+const Level = require('../models/level');
+const Modality = require('../models/modality');
 const { Op } = require('sequelize');
 const { leven } = require('@nlpjs/similarity');
 
@@ -63,7 +65,7 @@ exports.getCourses = async (req, res) => {
         }
 
         var courses = await Course.findAll({
-            attributes: ['name', 'description', 'duration', 'cost', 'level', 'modality'],
+            attributes: ['name', 'description', 'duration', 'cost'],
             where: queries,
             include: [{
                 model: Category,
@@ -71,6 +73,12 @@ exports.getCourses = async (req, res) => {
             }, {
                 model: Platform,
                 attributes: ['name', 'description']
+            }, {
+                model: Level,
+                attributes: ['description']
+            }, {
+                model: Modality,
+                attributes: ['description']
             }]
         });
 

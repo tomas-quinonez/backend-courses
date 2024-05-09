@@ -22,22 +22,36 @@ CREATE TABLE courses.learningpaths (
 	CONSTRAINT learningpaths_pk PRIMARY KEY (idpath)
 );
 
+CREATE TABLE courses.levels (
+	idlevel serial NOT NULL,
+	description varchar NOT NULL,
+	CONSTRAINT levels_pk PRIMARY KEY (idlevel)
+);
+
+CREATE TABLE courses.modalities (
+	idmodality serial NOT NULL,
+	description varchar NOT NULL,
+	CONSTRAINT modalities_pk PRIMARY KEY (idmodality)
+);
+
 CREATE TABLE courses.courses (
 	idcourse serial NOT NULL,
-	idcategory serial NOT NULL,
-	idplatform serial NOT NULL,
-	code int NOT NULL,
-	name varchar NOT NULL,
-	description varchar NOT NULL,
-	duration int NOT NULL,
-	cost float8 NOT NULL,
-	level varchar NOT NULL,
-	modality varchar NOT NULL,
+	idcategory int NULL,
+	idplatform int NULL,
+	code int NULL,
+	name varchar NULL,
+	description varchar NULL,
+	duration int NULL,
+	cost float8 NULL,
+	idlevel int NULL,
+	idmodality int NULL,
 	idpath int NULL,
 	CONSTRAINT courses_pk PRIMARY KEY (idcourse),
 	CONSTRAINT courses_categories_fk FOREIGN KEY (idcategory) REFERENCES courses.categories(idcategory),
 	CONSTRAINT courses_platforms_fk FOREIGN KEY (idplatform) REFERENCES courses.platforms(idplatform),
-	CONSTRAINT courses_learningpaths_fk FOREIGN KEY (idpath) REFERENCES courses.learningpaths(idpath)
+	CONSTRAINT courses_learningpaths_fk FOREIGN KEY (idpath) REFERENCES courses.learningpaths(idpath),
+	CONSTRAINT courses_levels_fk FOREIGN KEY (idpath) REFERENCES courses.levels(idlevel),
+	CONSTRAINT courses_modalities_fk FOREIGN KEY (idpath) REFERENCES courses.modalities(idmodality)
 );
 
 
@@ -50,7 +64,27 @@ INSERT INTO courses.platforms
 (idplatform, name, description)
 VALUES(1, 'udemy', 'Plataforma de aprendizaje en línea');
 
+INSERT INTO courses.levels
+(idlevel, description)
+VALUES(1, 'principiante');
+INSERT INTO courses.levels
+(idlevel, description)
+VALUES(2, 'intermedio');
+INSERT INTO courses.levels
+(idlevel, description)
+VALUES(3, 'avanzado');
+
+INSERT INTO courses.modalities
+(idmodality, description)
+VALUES(1, 'virtual');
+INSERT INTO courses.modalities
+(idmodality, description)
+VALUES(2, 'presencial');
+INSERT INTO courses.modalities
+(idmodality, description)
+VALUES(3, 'hibrido');
+
 INSERT INTO courses.courses
-(idcourse, idcategory, idplatform, code, name, description, duration, cost, level, modality, idpath)
-VALUES(1, 1, 1, 5, 'Programación full-stack', 'Curso de programación web full-stack', 18, 150000, 'principiante', 'virtual', NULL);
+(idcourse, idcategory, idplatform, code, name, description, duration, cost, idlevel, idmodality, idpath)
+VALUES(1, 1, 1, 5, 'Programación full-stack', 'Curso de programación web full-stack', 18, 150000, 1, 1, NULL);
 

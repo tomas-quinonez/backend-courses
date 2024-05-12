@@ -1,8 +1,11 @@
+// controllers/courseController.js
+
 const Course = require('../models/course');
 const Category = require('../models/category');
 const Platform = require('../models/platform');
 const Level = require('../models/level');
 const Modality = require('../models/modality');
+const User = require('../models/user');
 const { Op } = require('sequelize');
 const { leven } = require('@nlpjs/similarity');
 
@@ -30,13 +33,11 @@ function filterByKeywords(keywords, courses) {
     return filteredCourses;
 }
 
-// Controller method to get all todos
 exports.getAllCourses = async (req, res) => {
     try {
         const todos = await Course.findAll();
         res.json(todos);
     } catch (error) {
-        console.log(error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
@@ -88,7 +89,6 @@ exports.getCourses = async (req, res) => {
 
         res.json(courses);
     } catch (error) {
-        console.log(error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };

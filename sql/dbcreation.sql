@@ -1,4 +1,25 @@
 CREATE SCHEMA courses;
+CREATE SCHEMA users;
+
+CREATE TABLE users.roles (
+	idrole serial NOT NULL,
+	name varchar NULL,
+	CONSTRAINT roles_pk PRIMARY KEY (idrole)
+);
+
+CREATE TABLE users.users (
+	iduser serial NOT NULL,
+	username varchar NOT NULL,
+	password varchar NOT NULL,
+	name varchar NULL,
+	email varchar NOT NULL,
+	idrole int4 NOT NULL,
+	created_at timestamp DEFAULT now() NULL,
+	CONSTRAINT users_pk PRIMARY KEY (iduser),
+	CONSTRAINT users_unique UNIQUE (username),
+	CONSTRAINT users_unique_1 UNIQUE (email),
+	CONSTRAINT users_roles_fk FOREIGN KEY (idrole) REFERENCES users.roles(idrole)
+);
 
 
 CREATE TABLE courses.categories (
@@ -54,7 +75,13 @@ CREATE TABLE courses.courses (
 	CONSTRAINT courses_modalities_fk FOREIGN KEY (idpath) REFERENCES courses.modalities(idmodality)
 );
 
+INSERT INTO users.roles 
+(idrole, name)
+VALUES(1, 'admin');
 
+INSERT INTO users.roles
+(idrole, name)
+VALUES(2, 'user');
 
 INSERT INTO courses.categories
 (idcategory, name, description)

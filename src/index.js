@@ -1,12 +1,17 @@
+// index.js
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const dotenv = require('dotenv');
+const cookieParser = require("cookie-parser");
 const db = require('./config/database');
 const todoRoutes = require('./routes/todoRoutes');
 const courseRoutes = require('./routes/courseRoutes');
+const authRoutes = require('./routes/authRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 dotenv.config();
 
@@ -30,12 +35,16 @@ app.use(cors());
 // adding morgan to log HTTP requests
 app.use(morgan('combined'));
 
+app.use(cookieParser());
+
 app.get('/', (req, res) => {
     res.send('Hello, World!');
 });
 
 app.use('/todos', todoRoutes);
 app.use('/courses', courseRoutes);
+app.use('/auth', authRoutes);
+app.use('/users', userRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

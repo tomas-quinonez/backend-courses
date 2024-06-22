@@ -8,7 +8,7 @@ const courseController = require('../controllers/courseController');
 router.get('/getallcourses', courseController.getAllCourses);
 
 // Route to get all todos
-router.get('/getcourses', courseController.getCourses);
+router.post('/getcourses', courseController.getCourses);
 
 // Route to create a new todo
 //router.post('/', courseController.createTodo);

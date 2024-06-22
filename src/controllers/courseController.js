@@ -46,23 +46,23 @@ exports.getCourses = async (req, res) => {
     try {
         const queries = {};
 
-        if (req.query.idcategory) {
-            queries['idcategory'] = req.query.idcategory;
+        if (req.body.idcategory) {
+            queries['idcategory'] = req.body.idcategory;
         }
-        if (req.query.idplatform) {
-            queries['idplatform'] = req.query.idplatform;
+        if (req.body.idplatform) {
+            queries['idplatform'] = req.body.idplatform;
         }
-        if (req.query.duration) {
-            queries['duration'] = { [Op.lte]: req.query.duration };
+        if (req.body.duration) {
+            queries['duration'] = { [Op.lte]: req.body.duration };
         }
-        if (req.query.cost) {
-            queries['cost'] = { [Op.lte]: req.query.cost };
+        if (req.body.cost) {
+            queries['cost'] = { [Op.lte]: req.body.cost };
         }
-        if (req.query.level) {
-            queries['level'] = req.query.level;
+        if (req.body.level) {
+            queries['level'] = req.body.level;
         }
-        if (req.query.modality) {
-            queries['modality'] = req.query.modality;
+        if (req.body.modality) {
+            queries['modality'] = req.body.modality;
         }
 
         var courses = await Course.findAll({
@@ -83,12 +83,12 @@ exports.getCourses = async (req, res) => {
             }]
         });
 
-        if (req.query.keywords) {
-            courses = filterByKeywords(req.query.keywords, courses);
+        if (req.body.keywords) {
+            courses = filterByKeywords(req.body.keywords, courses);
         }
 
         res.json(courses);
     } catch (error) {
-        res.status(500).json({ error: 'Error Interno del Servidor' });
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 };

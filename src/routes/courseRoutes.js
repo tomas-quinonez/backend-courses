@@ -5,7 +5,7 @@ const router = express.Router();
 const courseController = require('../controllers/courseController');
 
 // Route to get all todos
-router.get('/allcourses', courseController.getAllCourses);
+router.get('/getallcourses', courseController.getAllCourses);
 
 // Route to get all todos
 router.get('/getcourses', courseController.getCourses);

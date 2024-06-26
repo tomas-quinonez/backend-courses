@@ -30,7 +30,3 @@ if __name__ == '__main__':
         break
 
     print(json.dumps(result))
-
-    
-
-    

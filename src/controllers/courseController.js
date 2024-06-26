@@ -94,26 +94,43 @@ exports.getCourses = async (req, res) => {
     }
 };
 
-exports.getPrueba = async (req, res) => {
-    text = 'Este es un texto de pueba sobre un curso de inteligencia artifial';
+exports.getCoursesByText = async (req, res) => {
+    const text = req.body.text;
+    if (text) {
+        try {
+            await exec(`python3 /usr/src/app/python/get_similarities_bert.py ${text}`, (error, stdout, stderr) => {
+                if (error || stderr) {
+                    res.status(500).json({ error: 'Internal Server Error' });
+                    return;
+                }
 
-    try {
-        await exec('python3 /usr/src/app/python/get_similarities.py', (error, stdout, stderr) => {
-            if (error) {
-                console.error(`Error: ${error.message}`);
-                return res.status(500).send(`Error: ${error.message}`);
-            }
-            if (stderr) {
-                console.error(`stderr: ${stderr}`);
-                return res.status(500).send(`stderr: ${stderr}`);
-            }
-            console.log(`stdout: ${stdout}`);
-            var courses = JSON.parse(stdout);
-            
-            //res.send(stdout); 
-            res.status(200).json(courses);
-        }); 
-    } catch (error) {
-        res.status(500).json({ error: error.message });
+                const idCourses = JSON.parse(stdout);
+                Course.findAll({
+                    attributes: ['name', 'description', 'duration', 'cost'],
+                    where: {
+                        idcourse: idCourses
+                    },
+                    include: [{
+                        model: Category,
+                        attributes: ['name', 'description']
+                    }, {
+                        model: Platform,
+                        attributes: ['name', 'description']
+                    }, {
+                        model: Level,
+                        attributes: ['description']
+                    }, {
+                        model: Modality,
+                        attributes: ['description']
+                    }]
+                }).then((courses) => {
+                    res.status(200).json(courses);
+                });
+            });
+        } catch (error) {
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    } else {
+        res.status(400).json({ error: 'No se detectó ningún texto' });
     }
 };

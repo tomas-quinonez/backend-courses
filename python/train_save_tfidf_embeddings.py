@@ -1,16 +1,7 @@
-import json
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
 import joblib
 import os
 from csv import DictReader
-
-# Datos de los cursos
-'''courses = [
-    {"id": 1, "title": "Curso de JavaScript", "description": "Aprende JavaScript desde cero hasta avanzado."},
-    {"id": 2, "title": "Curso de Python", "description": "Domina Python para desarrollo web y analisis de datos."},
-    {"id": 3, "title": "Curso de Machine Learning", "description": "Introduccion al machine learning con ejemplos practicos."}
-]'''
 
 def get_data_from_csv(path):
     # open file in read mode

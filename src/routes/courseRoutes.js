@@ -11,6 +11,6 @@ router.get('/getallcourses', courseController.getAllCourses);
 router.post('/getcourses', courseController.getCourses);
 
 // Obtener cursos a partir de un texto de entrada
-router.get('/getcoursesbyText', courseController.getCoursesByText);
+router.post('/getcoursesbyText', courseController.getCoursesByText);
 
 module.exports = router;

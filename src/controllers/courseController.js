@@ -36,14 +36,30 @@ function filterByKeywords(keywords, courses) {
 
 exports.getAllCourses = async (req, res) => {
     try {
-        const todos = await Course.findAll();
-        res.json(todos);
+        const courses = await Course.findAll({
+            attributes: ['name', 'description', 'duration', 'cost', 'url'],
+            include: [{
+                model: Category,
+                attributes: ['name', 'description']
+            }, {
+                model: Platform,
+                attributes: ['name', 'description']
+            }, {
+                model: Level,
+                attributes: ['description']
+            }, {
+                model: Modality,
+                attributes: ['description']
+            }]
+        });
+        res.json(courses);
     } catch (error) {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
 
 exports.getCourses = async (req, res) => {
+    console.log('hola');
     try {
         const queries = {};
 
@@ -66,7 +82,7 @@ exports.getCourses = async (req, res) => {
             queries['modality'] = req.body.modality;
         }
 
-        var courses = await Course.findAll({
+        const courses = await Course.findAll({
             attributes: ['name', 'description', 'duration', 'cost', 'url'],
             where: queries,
             include: [{

@@ -12,6 +12,9 @@ const todoRoutes = require('./routes/todoRoutes');
 const courseRoutes = require('./routes/courseRoutes');
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
+const categoryRoutes = require('./routes/categoryRoutes');
+const levelRoutes = require('./routes/levelRoutes');
+const modalityRoutes = require('./routes/modalityRoutes');
 
 dotenv.config();
 
@@ -45,6 +48,9 @@ app.use('/todos', todoRoutes);
 app.use('/courses', courseRoutes);
 app.use('/auth', authRoutes);
 app.use('/users', userRoutes);
+app.use('/categories', categoryRoutes);
+app.use('/levels', levelRoutes);
+app.use('/modalities', modalityRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

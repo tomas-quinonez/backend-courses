@@ -8,6 +8,7 @@ const Modality = require('../models/modality');
 const User = require('../models/user');
 const { Op } = require('sequelize');
 const { leven } = require('@nlpjs/similarity');
+const { exec } = require('child_process');
 
 function filterByKeywords(keywords, courses) {
     filteredCourses = [];
@@ -90,5 +91,29 @@ exports.getCourses = async (req, res) => {
         res.json(courses);
     } catch (error) {
         res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+exports.getPrueba = async (req, res) => {
+    text = 'Este es un texto de pueba sobre un curso de inteligencia artifial';
+
+    try {
+        await exec('python3 /usr/src/app/python/get_similarities.py', (error, stdout, stderr) => {
+            if (error) {
+                console.error(`Error: ${error.message}`);
+                return res.status(500).send(`Error: ${error.message}`);
+            }
+            if (stderr) {
+                console.error(`stderr: ${stderr}`);
+                return res.status(500).send(`stderr: ${stderr}`);
+            }
+            console.log(`stdout: ${stdout}`);
+            var courses = JSON.parse(stdout);
+            
+            //res.send(stdout); 
+            res.status(200).json(courses);
+        }); 
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
 };

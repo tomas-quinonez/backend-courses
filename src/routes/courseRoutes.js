@@ -10,6 +10,8 @@ router.get('/getallcourses', courseController.getAllCourses);
 // Route to get all todos
 router.post('/getcourses', courseController.getCourses);
 
+router.get('/getprueba', courseController.getPrueba);
+
 // Route to create a new todo
 //router.post('/', courseController.createTodo);
 

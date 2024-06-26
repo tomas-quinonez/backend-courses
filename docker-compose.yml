@@ -15,6 +15,8 @@ services:
       #- ./sql/inserttables.sql:/docker-entrypoint-initdb.d/inserttables.sql
 
   app:
+    image: backend.courses
+    container_name: backend
     build:
       context: .
     environment:
@@ -28,6 +30,7 @@ services:
       - '3000:3000'
     volumes:
       - .:/usr/src/app
+      - /usr/src/app/node_modules
         
 volumes:
   app-db:

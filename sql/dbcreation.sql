@@ -67,6 +67,7 @@ CREATE TABLE courses.courses (
 	idlevel int NULL,
 	idmodality int NULL,
 	idpath int NULL,
+	url varchar NULL,
 	CONSTRAINT courses_pk PRIMARY KEY (idcourse),
 	CONSTRAINT courses_categories_fk FOREIGN KEY (idcategory) REFERENCES courses.categories(idcategory),
 	CONSTRAINT courses_platforms_fk FOREIGN KEY (idplatform) REFERENCES courses.platforms(idplatform),
@@ -112,6 +113,6 @@ INSERT INTO courses.modalities
 VALUES(3, 'hibrido');
 
 INSERT INTO courses.courses
-(idcourse, idcategory, idplatform, code, name, description, duration, cost, idlevel, idmodality, idpath)
-VALUES(1, 1, 1, 5, 'Programación full-stack', 'Curso de programación web full-stack', 18, 150000, 1, 1, NULL);
+(idcourse, idcategory, idplatform, code, name, description, duration, cost, idlevel, idmodality, idpath, url)
+VALUES(1, 1, 1, 5, 'Programación full-stack', 'Curso de programación web full-stack', 18, 150000, 1, 1, NULL, 'https://platzi.com/');
 

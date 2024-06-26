@@ -68,6 +68,10 @@ const Course = db.define('courses', {
         references: 'learningpaths',
         referencesKey: 'idpath'
     },
+    url: {
+        type: Sequelize.STRING,
+        allowNull: true,
+    },
 },
     {
         timestamps: false,

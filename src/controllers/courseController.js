@@ -67,7 +67,7 @@ exports.getCourses = async (req, res) => {
         }
 
         var courses = await Course.findAll({
-            attributes: ['name', 'description', 'duration', 'cost'],
+            attributes: ['name', 'description', 'duration', 'cost', 'url'],
             where: queries,
             include: [{
                 model: Category,
@@ -105,8 +105,9 @@ exports.getCoursesByText = async (req, res) => {
                 }
 
                 const idCourses = JSON.parse(stdout);
+                idCourses.push(1);
                 Course.findAll({
-                    attributes: ['name', 'description', 'duration', 'cost'],
+                    attributes: ['name', 'description', 'duration', 'cost', 'url'],
                     where: {
                         idcourse: idCourses
                     },
